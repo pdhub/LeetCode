@@ -3,34 +3,18 @@ package practice.arrays;
 public class WaterContainer {
 
     public int maxArea(int[] height) {
-        int[] leftHeight = new int[height.length];
-        int[] rightHeight = new int[height.length];
-
-        int maxIndex = 0;
-        leftHeight[0] =  maxIndex;
-        for (int i = 1; i < height.length; i++) {
-            if (height[i] > height[maxIndex]) {
-                maxIndex = i;
-            }
-            leftHeight[i] = maxIndex;
+        int max=0;
+        int i = 0;
+        int j = height.length-1;
+        while(i<j)
+        {
+            if((j-i)*Math.min(height[i],height[j])>max)
+                max=(j-i)*Math.min(height[i],height[j]);
+            if(height[i]<height[j])
+                i++;
+            else j--;
         }
-
-        maxIndex = height.length - 1;
-        rightHeight[height.length - 1] =  maxIndex;
-        for (int i = height.length - 2; i >= 0; i--) {
-            if (height[i] > height[maxIndex]) {
-                maxIndex = i;
-            }
-            rightHeight[i] = maxIndex;
-        }
-
-        int maxWater = 0;
-        for (int i = 0; i < height.length; i++) {
-            int temp = Math.min(height[leftHeight[i]], height[rightHeight[i]]) * Math.abs(leftHeight[i]-rightHeight[i]);
-            if (temp > maxWater)
-                maxWater = temp;
-        }
-        return maxWater;
+        return max;
     }
 
     public static void main(String[] args) {
