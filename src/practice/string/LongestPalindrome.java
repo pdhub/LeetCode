@@ -33,7 +33,20 @@ public class LongestPalindrome {
         return maxStr;
     }
 
-    public static void main(String[] args) {
-
+    public String longestPalindromeDP(String s) {
+        String ans = "";
+        if(s.length() == 0) return ans;
+        int n = s.length(), start = 0, end = 0, maxLen = 0;
+        boolean[][] DP = new boolean[n][n];
+        for(int i = n - 1; i >= 0; i--) {
+            for(int j = i; j < n; j++) {
+                DP[i][j] = s.charAt(i) == s.charAt(j) && (j - i < 3 || DP[i+1][j-1]);
+                if(DP[i][j] && (j - i > end - start)) {
+                    start = i;
+                    end = j;
+                }
+            }
+        }
+        return s.substring(start, end+1);
     }
 }
