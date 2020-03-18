@@ -2,7 +2,7 @@ package practice;
 
 import java.util.*;
 
-public class BackTracking {
+public class LetterCombinationsPhoneNumber {
 
 
     static Map<Integer, String> digitToCharaters = new HashMap<Integer, String>();
