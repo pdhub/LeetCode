@@ -86,6 +86,50 @@ public class LevelOrderTraversal {
         }
     }
 
+    /*-----------------------------------------------------------
+    Height balanced Red Black tree
+
+    We are doing here a postOrder traversal of the tree.
+    This is taking O(n)
+    -----------------------------------------------------------*/
+
+    boolean heightBalancedRBt(TechieDelightNode root, int max) {
+        if (root == null)
+            return true;
+        int lmax = 0;
+        int rmax = 0;
+        if (heightBalancedRBt(root.left, lmax) && heightBalancedRBt(root.right, rmax)){
+            int min = Math.min(lmax, rmax) + 1;
+            max = Math.max(lmax, rmax) + 1;
+            return max <= 2*min;
+        }
+        return false;
+    }
+
+    /*-----------------------------------------------------------
+    Construct binary tree given inorder and postorder
+    -----------------------------------------------------------*/
+
+    TechieDelightNode construct(int inorder[], int postOrder[]){
+        int n = inorder.length;
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for (int i = 0; i < n; i++) {
+            map.put(inorder[i], i);
+        }
+        Integer pIndex = 0;
+        return createNodefromInPo(0, n - 1, pIndex, map, postOrder);
+    }
+
+    private TechieDelightNode createNodefromInPo(int start, int end, Integer pIndex, Map<Integer, Integer> map, int[] postOrder) {
+        if (start > end)
+            return null;
+        TechieDelightNode root = new TechieDelightNode(postOrder[pIndex--]);
+        int index = map.get(root.value);
+        root.right = createNodefromInPo(index + 1, end, pIndex, map, postOrder);
+        root.left = createNodefromInPo(start, index - 1, pIndex, map, postOrder);
+        return root;
+    }
+
 
     public static void main(String[] args)
     {
