@@ -108,6 +108,7 @@ public class LevelOrderTraversal {
 
     /*-----------------------------------------------------------
     Construct binary tree given inorder and postorder
+    We are doing O(n) time with O(n) space
     -----------------------------------------------------------*/
 
     TechieDelightNode construct(int inorder[], int postOrder[]){
@@ -128,6 +129,34 @@ public class LevelOrderTraversal {
         root.right = createNodefromInPo(index + 1, end, pIndex, map, postOrder);
         root.left = createNodefromInPo(start, index - 1, pIndex, map, postOrder);
         return root;
+    }
+
+    /*-----------------------------------------------------------
+    Covert a BST to Min heap
+    Do a inorder traversal and add to the queue
+    Do a preorder tracversal and change values reading from the queue
+    -----------------------------------------------------------*/
+
+    void convert(TechieDelightNode root) {
+        Queue<TechieDelightNode> queue = new ArrayDeque<TechieDelightNode>();
+        inorder(root, queue);
+        preOrder(root, queue);
+    }
+
+    void inorder(TechieDelightNode root, Queue<TechieDelightNode> q){
+        if (root == null)
+            return;
+        inorder(root.left, q);
+        q.add(root.value);
+        inorder(root.right, q);
+    }
+
+    void preOrder(TechieDelightNode root, Queue<TechieDelightNode> q){
+        if (root == null)
+            return;
+        root.value = q.poll();
+        preOrder(root.left, q);
+        preOrder(root.right, q);
     }
 
 
